@@ -1,3 +1,4 @@
+// src/slices/commentsSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -10,9 +11,9 @@ const commentsSlice = createSlice({
   initialState,
   reducers: {
     setComments(state, { payload }) {
-      // BEGIN (write your solution here)
-
-      // END
+      const { entities, ids } = payload;
+      state.entities = entities;
+      state.ids = ids;
     },
   },
 });

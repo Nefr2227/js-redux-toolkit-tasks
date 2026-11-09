@@ -1,3 +1,4 @@
+// src/components/Post.jsx
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Comment from './Comment.jsx';
@@ -5,7 +6,7 @@ import Comment from './Comment.jsx';
 const Post = ({ post }) => {
   const author = useSelector((state) => {
     // BEGIN (write your solution here)
-
+    return state.usersReducer.entities[post.author];
     // END
   });
 

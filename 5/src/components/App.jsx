@@ -1,3 +1,4 @@
+// src/components/App.jsx
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -7,7 +8,7 @@ import routes from '../routes.js';
 import { actions as usersActions } from '../slices/usersSlice.js';
 import { actions as postsActions } from '../slices/postsSlice.js';
 // BEGIN (write your solution here)
-
+import { actions as commentsActions } from '../slices/commentsSlice.js';
 // END
 
 const App = () => {
@@ -25,7 +26,7 @@ const App = () => {
       dispatch(usersActions.setUsers(users));
       dispatch(postsActions.setPosts(posts));
       // BEGIN (write your solution here)
-
+      dispatch(commentsActions.setComments(comments));
       // END
     };
 
