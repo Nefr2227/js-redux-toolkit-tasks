@@ -1,3 +1,4 @@
+// src/slices/postsSlice.js
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { actions as usersActions } from "./usersSlice.js";
 
@@ -17,7 +18,14 @@ const postsSlice = createSlice({
       postsAdapter.removeOne(state, payload.id),
   },
   // BEGIN (write your solution here)
-
+  extraReducers: (builder) => {
+    builder.addCase(usersActions.removeUser, (state, { payload: userId }) => {
+      const remaining = Object.values(state.entities).filter(
+        (post) => post.author !== userId
+      );
+      postsAdapter.setAll(state, remaining);
+    });
+  },
   // END
 });
 

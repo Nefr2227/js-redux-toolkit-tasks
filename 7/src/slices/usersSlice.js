@@ -1,5 +1,18 @@
+// src/slices/usersSlice.js
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 
-// BEGIN (write your solution here)
+const usersAdapter = createEntityAdapter();
 
-// END
+const initialState = usersAdapter.getInitialState();
+
+const usersSlice = createSlice({
+  name: "users",
+  initialState,
+  reducers: {
+    addUsers: usersAdapter.addMany,
+  },
+});
+
+export const { actions } = usersSlice;
+export const selectors = usersAdapter.getSelectors((state) => state.usersReducer);
+export default usersSlice.reducer;

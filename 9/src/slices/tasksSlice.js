@@ -1,3 +1,4 @@
+// src/slices/tasksSlice.js
 import axios from "axios";
 
 import {
@@ -13,5 +14,38 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
 });
 
 // BEGIN (write your solution here)
+export const addTask = createAsyncThunk("tasks/addTask", async ({ name }) => {
+  const response = await axios.post(routes.tasksPath(), { name });
+  return response.data;
+});
 
+export const removeTask = createAsyncThunk("tasks/removeTask", async (id) => {
+  await axios.delete(routes.taskPath(id));
+  return id;
+});
+
+const tasksAdapter = createEntityAdapter();
+
+const initialState = tasksAdapter.getInitialState();
+
+const tasksSlice = createSlice({
+  name: "tasks",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTasks.fulfilled, (state, { payload }) => {
+        tasksAdapter.setAll(state, payload);
+      })
+      .addCase(addTask.fulfilled, (state, { payload }) => {
+        tasksAdapter.addOne(state, payload);
+      })
+      .addCase(removeTask.fulfilled, (state, { payload: id }) => {
+        tasksAdapter.removeOne(state, id);
+      });
+  },
+});
+
+export const selectors = tasksAdapter.getSelectors((state) => state.tasks);
+export default tasksSlice.reducer;
 // END

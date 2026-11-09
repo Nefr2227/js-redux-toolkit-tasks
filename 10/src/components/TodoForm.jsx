@@ -1,34 +1,33 @@
 import React, { useState } from 'react';
-import cn from 'classnames';
 
 const TodoForm = ({ submitHandler }) => {
-  const [newTaskText, setNewTaskText] = useState('');
-  const handleChangeText = (event) => setNewTaskText(event.target.value);
+  const [text, setText] = useState('');
 
-  const inputClassName = cn({
-    'form-control': true,
-    'me-3': true,
-  });
-
-  const onSubmit = (event) => {
-    submitHandler(event, newTaskText);
-    setNewTaskText('');
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    submitHandler(event, text);
+    setText('');
   };
 
   return (
-    <form onSubmit={onSubmit} className="todo-form">
+    <form className="todo-form" onSubmit={handleSubmit}>
       <div className="input-group has-validation">
         <input
           type="text"
-          onChange={handleChangeText}
-          value={newTaskText}
+          className="form-control me-3"
           data-testid="input"
-          required
-          className={inputClassName}
           placeholder="I am going..."
+          required
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         />
         <div className="input-group-append">
-          <input type="submit" data-testid="submit" className="btn btn-primary btn-sm" value="Add" />
+          <input
+            type="submit"
+            className="btn btn-primary btn-sm"
+            data-testid="submit"
+            value="Add"
+          />
         </div>
       </div>
     </form>

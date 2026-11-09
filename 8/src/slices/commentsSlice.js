@@ -1,3 +1,4 @@
+// src/slices/commentsSlice.js
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { actions as usersActions } from "./usersSlice.js";
 import { actions as postsActions } from "./postsSlice.js";
@@ -14,7 +15,21 @@ const commentsSlice = createSlice({
     addComment: commentsAdapter.addOne,
   },
   // BEGIN (write your solution here)
-
+  extraReducers: (builder) => {
+    builder
+      .addCase(usersActions.removeUser, (state, { payload: userId }) => {
+        const remaining = Object.values(state.entities).filter(
+          (comment) => comment.author !== userId
+        );
+        commentsAdapter.setAll(state, remaining);
+      })
+      .addCase(postsActions.removePost, (state, { payload: post }) => {
+        const remaining = Object.values(state.entities).filter(
+          (comment) => !post.comments.includes(comment.id)
+        );
+        commentsAdapter.setAll(state, remaining);
+      });
+  },
   // END
 });
 
